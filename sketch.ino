@@ -1,6 +1,3 @@
-// Smart T-Junction Project - traffic_control.ino
-// Edwar Khoury - Spring 2025
-
 #include <Adafruit_GFX.h>
 #include <Adafruit_ILI9341.h>
 #include <SPI.h>
@@ -28,7 +25,7 @@ const int MODE_SWITCH = 11;
 
 // Constants
 #define MAX_QUEUE 4
-#define YELLOW_TIME 500
+#define YELLOW_TIME 5000
 #define MIN_GREEN_TIME 1000
 #define MAX_GREEN_TIME 7000
 
@@ -41,37 +38,61 @@ struct Vehicle {
 struct Lane {
   Vehicle queue[MAX_QUEUE];
   int count = 0;
+  bool markovState = true;
+  unsigned long nextGenTime = 0;
 };
 
 Lane lane1, lane2, lane3;
 unsigned long vehicleCounter = 1;
 
-// Round-robin and pattern
 unsigned long lastOptimization = 0;
 int greenPattern[3] = {3000, 3000, 3000};
 int patternIndex = 0;
-bool patternChanged = false;
 
-// Helper Functions
-void setTL(int tl, const char* color) {
-  // Turn off all lights
-  digitalWrite(TL1_R, HIGH); digitalWrite(TL1_G, HIGH); digitalWrite(TL1_B, HIGH);
-  digitalWrite(TL2_R, HIGH); digitalWrite(TL2_G, HIGH); digitalWrite(TL2_B, HIGH);
-  digitalWrite(TL3_R, HIGH); digitalWrite(TL3_G, HIGH); digitalWrite(TL3_B, HIGH);
+int thrownCars[3] = {0, 0, 0};
+const char* tlColors[3] = {"RED", "RED", "RED"};
 
-  int r, g, b;
-  if (strcmp(color, "RED") == 0)    { r = LOW; g = HIGH; b = HIGH; }
-  else if (strcmp(color, "GREEN") == 0)  { r = HIGH; g = LOW; b = HIGH; }
-  else if (strcmp(color, "YELLOW") == 0) { r = HIGH; g = HIGH; b = LOW; }
-  else return;
+void setTL(const char* color, bool isTL3Phase = false) {
+  int rA = LOW, gA = LOW, bA = LOW; // TL1 & TL2
+  int rB = LOW, gB = LOW, bB = LOW; // TL3
 
-  switch (tl) {
-    case 1: digitalWrite(TL1_R, r); digitalWrite(TL1_G, g); digitalWrite(TL1_B, b); break;
-    case 2: digitalWrite(TL2_R, r); digitalWrite(TL2_G, g); digitalWrite(TL2_B, b); break;
-    case 3: digitalWrite(TL3_R, r); digitalWrite(TL3_G, g); digitalWrite(TL3_B, b); break;
+  if (isTL3Phase) {
+    // TL3 gets active color, TL1 & TL2 stay red
+    rA = HIGH;
+
+    if (strcmp(color, "GREEN") == 0) {
+      gB = HIGH;
+    } else if (strcmp(color, "YELLOW") == 0) {
+      rB = gB = HIGH;
+    } else {
+      rB = HIGH;
+    }
+  } else {
+    // TL1 & TL2 get active color, TL3 stays red
+    rB = HIGH;
+
+    if (strcmp(color, "GREEN") == 0) {
+      gA = HIGH;
+    } else if (strcmp(color, "YELLOW") == 0) {
+      rA = gA = HIGH;
+    } else {
+      rA = HIGH;
+    }
   }
-  Serial.printf("%lu, system, TL%d set to %s\n", millis(), tl, color);
+
+  // Update internal status
+  tlColors[0] = tlColors[1] = (gA && rA) ? "YELLOW" : (gA ? "GREEN" : "RED");
+  tlColors[2] = (gB && rB) ? "YELLOW" : (gB ? "GREEN" : "RED");
+
+  digitalWrite(TL1_R, rA); digitalWrite(TL1_G, gA); digitalWrite(TL1_B, bA);
+  digitalWrite(TL2_R, rA); digitalWrite(TL2_G, gA); digitalWrite(TL2_B, bA);
+  digitalWrite(TL3_R, rB); digitalWrite(TL3_G, gB); digitalWrite(TL3_B, bB);
+
+  Serial.printf("%lu, system, TL1 set to %s | TL2 set to %s | TL3 set to %s\n",
+                millis(), tlColors[0], tlColors[1], tlColors[2]);
 }
+
+
 
 void logVehicleEvent(unsigned long id, const char* event) {
   Serial.printf("%lu, vehicle %lu, %s | Lane1:%d Lane2:%d Lane3:%d\n",
@@ -79,19 +100,21 @@ void logVehicleEvent(unsigned long id, const char* event) {
 }
 
 void generateVehicle(Lane &lane, int laneNum) {
+  if (digitalRead(MODE_SWITCH) == HIGH) return; // block generation in manual mode
   if (lane.count < MAX_QUEUE) {
     lane.queue[lane.count++] = {vehicleCounter++, millis()};
     logVehicleEvent(vehicleCounter - 1, "generated");
   } else {
+    thrownCars[laneNum - 1]++;
     Serial.printf("%lu, vehicle -1, thrown from Lane %d (full)\n", millis(), laneNum);
   }
 }
 
-void crossVehicle(Lane &lane, int tlNum) {
-  if (lane.count > 0) {
+void crossVehicle(Lane &lane, int tlNum, int maxPass) {
+  for (int i = 0; i < maxPass && lane.count > 0; i++) {
     unsigned long id = lane.queue[0].id;
-    for (int i = 1; i < lane.count; ++i)
-      lane.queue[i - 1] = lane.queue[i];
+    for (int j = 1; j < lane.count; ++j)
+      lane.queue[j - 1] = lane.queue[j];
     lane.count--;
     logVehicleEvent(id, "crossed");
   }
@@ -119,43 +142,121 @@ void setup() {
 }
 
 void updateLCD() {
-  tft.fillScreen(ILI9341_BLACK);
-  tft.setCursor(0, 0);
-  tft.printf("Mode: %s\n", digitalRead(MODE_SWITCH) ? "Manual" : "Random");
-  tft.printf("TL1:%d TL2:%d TL3:%d\n", lane1.count, lane2.count, lane3.count);
-  tft.printf("Pattern: %d-%d-%d\n", greenPattern[0]/1000, greenPattern[1]/1000, greenPattern[2]/1000);
+  static char lastDisplay[256];
+  char buffer[256];
+
+  snprintf(buffer, sizeof(buffer),
+  "Mode: %s\n"
+  "TL #1: %s\n"
+  "TL #2: %s\n"
+  "TL #3: %s\n"
+
+  "L1:%d L2:%d L3:%d\n"
+  "Green(s): %d %d %d\n"
+  "Thrown: %d\n",
+  digitalRead(MODE_SWITCH) ? "Manual" : "Random",
+  tlColors[0], tlColors[1], tlColors[2],
+  lane1.count, lane2.count, lane3.count,
+  greenPattern[0] / 1000, greenPattern[1] / 1000, greenPattern[2] / 1000,
+  thrownCars[0] + thrownCars[1] + thrownCars[2]
+);
+
+
+  if (strcmp(buffer, lastDisplay) != 0) {
+    strcpy(lastDisplay, buffer);
+    tft.fillScreen(ILI9341_BLACK);
+    tft.setCursor(0, 0);
+    tft.print(buffer);
+  }
+}
+
+void updateMarkov(Lane &lane, int laneNum) {
+  if (millis() >= lane.nextGenTime) {
+    if (lane.markovState) {
+      generateVehicle(lane, laneNum);
+      lane.nextGenTime = millis() + 5000;
+      lane.markovState = random(100) < 70;
+    } else {
+      int w = random(500, 5001);
+      lane.nextGenTime = millis() + w;
+      lane.markovState = random(100) >= 20;
+    }
+  }
+}
+
+void optimizePattern() {
+  Serial.printf("%lu, system, Traffic Light Pattern Optimization\n", millis());
+  int totalThrown = thrownCars[0] + thrownCars[1] + thrownCars[2];
+  if (totalThrown == 0) return;
+  for (int i = 0; i < 3; i++)
+    greenPattern[i] = map(thrownCars[i], 0, totalThrown, MIN_GREEN_TIME, MAX_GREEN_TIME);
+  Serial.printf("%lu, system, Traffic Light Pattern Update\n", millis());
+  for (int i = 0; i < 3; i++) thrownCars[i] = 0;
 }
 
 void loop() {
   updateLCD();
 
-  if (digitalRead(MODE_SWITCH)) { // Manual mode
+  if (digitalRead(MODE_SWITCH)) {
     if (digitalRead(BTN1)) generateVehicle(lane1, 1);
     if (digitalRead(BTN2)) generateVehicle(lane2, 2);
     if (digitalRead(BTN3)) generateVehicle(lane3, 3);
   } else {
-    // TODO: Implement random Markov process vehicle generation
+    updateMarkov(lane1, 1);
+    updateMarkov(lane2, 2);
+    updateMarkov(lane3, 3);
   }
 
-  // Traffic Light Scheduler
-  int tl = patternIndex + 1;
-  setTL(tl, "GREEN");
-  delay(greenPattern[patternIndex]);
+bool tl3Phase = (patternIndex % 2 == 1);  // every other pattern
 
-  if (tl == 1) crossVehicle(lane1, tl);
-  else if (tl == 2) crossVehicle(lane2, tl);
-  else if (tl == 3) crossVehicle(lane3, tl);
+if (tl3Phase) {
+  // TL3 gets green, TL1 & TL2 red
+  digitalWrite(TL1_R, HIGH); digitalWrite(TL1_G, LOW);
+  digitalWrite(TL2_R, HIGH); digitalWrite(TL2_G, LOW);
+  digitalWrite(TL3_R, LOW);  digitalWrite(TL3_G, HIGH);
+  tlColors[0] = tlColors[1] = "RED";
+  tlColors[2] = "GREEN";
+} else {
+  setTL("GREEN");  // TL1 & TL2 green, TL3 red
+}
 
-  setTL(tl, "YELLOW");
+unsigned long greenStart = millis();
+
+
+  while (millis() - greenStart < greenPattern[patternIndex]) {
+    static unsigned long lastLCD = 0;
+    if (millis() - lastLCD >= 1000) { // update LCD once every second
+      updateLCD();
+      lastLCD = millis();
+    }
+  }
+
+
+if (tl3Phase) {
+  crossVehicle(lane3, 3, 2);
+} else {
+  crossVehicle(lane1, 1, 2);
+  crossVehicle(lane2, 2, 2);
+}
+
+
+if (tl3Phase) {
+  // TL3 gets yellow
+  digitalWrite(TL3_R, HIGH); digitalWrite(TL3_G, HIGH);
+  digitalWrite(TL1_R, HIGH); digitalWrite(TL1_G, LOW);
+  digitalWrite(TL2_R, HIGH); digitalWrite(TL2_G, LOW);
+  tlColors[2] = "YELLOW";
+  tlColors[0] = tlColors[1] = "RED";
+} else {
+  setTL("YELLOW"); // TL1 & TL2 yellow, TL3 red
+}
+
   delay(YELLOW_TIME);
-  setTL(tl, "RED");
+  setTL("RED");
 
   patternIndex = (patternIndex + 1) % 3;
-
-  // Every 30 seconds optimize pattern (placeholder)
   if (millis() - lastOptimization >= 30000) {
-    Serial.printf("%lu, system, Traffic Light Pattern Optimization\n", millis());
-    // TODO: Implement optimization logic based on dropped cars, queue stats, etc.
+    optimizePattern();
     lastOptimization = millis();
   }
 }
