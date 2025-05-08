@@ -135,5 +135,5 @@ SmartTjunction/
 This project is licensed under the **Tel Aviv University (TAU) License**. See [LICENSE](LICENSE) for full terms.
 
 <p align="center">
-  <img src="https://upload.wikimedia.org/wikipedia/he/thumb/3/35/Tel_Aviv_University_logo.svg/1200px-Tel_Aviv_University_logo.svg.png" alt="Tel Aviv University logo" width="200">
+  <img src="https://en-engineering.tau.ac.il/sites/engineering-english.tau.ac.il/files/TAU_facultot_logos-01-handasa_0.png" alt="Tel Aviv University" height="72" width="212">
 </p>
