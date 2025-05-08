@@ -1,10 +1,9 @@
 {
-  "version": 1,
-  "author": "Edwar Khoury",
+  "version": 6.2,
+  "author":"Aiman Abed",
   "editor": "wokwi",
   "parts": [
     { "type": "wokwi-breadboard-mini", "id": "bb1", "top": -97.4, "left": -242.4, "attrs": {} },
-    { "type": "wokwi-breadboard-mini", "id": "bb2", "top": -97.4, "left": -424.8, "attrs": {} },
     {
       "type": "wokwi-breadboard-half",
       "id": "bb3",
@@ -21,41 +20,42 @@
       "rotate": 90,
       "attrs": { "env": "arduino-community" }
     },
-    { "type": "wokwi-rgb-led", "id": "rgb1", "top": -264.8, "left": -229.3, "attrs": {} },
-    { "type": "wokwi-rgb-led", "id": "rgb2", "top": -264.8, "left": -171.7, "attrs": {} },
-    { "type": "wokwi-rgb-led", "id": "rgb3", "top": -264.8, "left": -114.1, "attrs": {} },
+    {
+      "type": "wokwi-rgb-led",
+      "id": "rgb1",
+      "top": -264.8,
+      "left": -229.3,
+      "attrs": { "common": "cathode" }
+    },
+    {
+      "type": "wokwi-rgb-led",
+      "id": "rgb2",
+      "top": -264.8,
+      "left": -171.7,
+      "attrs": { "common": "cathode" }
+    },
+    {
+      "type": "wokwi-rgb-led",
+      "id": "rgb3",
+      "top": -264.8,
+      "left": -114.1,
+      "attrs": { "common": "cathode" }
+    },
     {
       "type": "wokwi-ili9341",
       "id": "lcd1",
-      "top": 98.3,
-      "left": -714.8,
+      "top": 98.8,
+      "left": -715.3,
       "rotate": 270,
       "attrs": {}
     },
-    { "type": "wokwi-slide-switch", "id": "sw1", "top": -254.8, "left": -275.3, "attrs": {} },
     {
-      "type": "wokwi-pushbutton",
-      "id": "btn1",
-      "top": -304.8,
-      "left": -460.6,
+      "type": "wokwi-slide-switch",
+      "id": "sw1",
+      "top": -68.2,
+      "left": -409.5,
       "rotate": 180,
-      "attrs": { "color": "red", "xray": "1" }
-    },
-    {
-      "type": "wokwi-pushbutton",
-      "id": "btn2",
-      "top": -247.2,
-      "left": -460.6,
-      "rotate": 180,
-      "attrs": { "color": "green", "xray": "1" }
-    },
-    {
-      "type": "wokwi-pushbutton",
-      "id": "btn3",
-      "top": -180,
-      "left": -460.6,
-      "rotate": 180,
-      "attrs": { "color": "blue", "xray": "1" }
+      "attrs": {}
     },
     {
       "type": "wokwi-resistor",
@@ -132,34 +132,91 @@
     {
       "type": "wokwi-resistor",
       "id": "r10",
-      "top": -168,
-      "left": -288.55,
-      "rotate": 90,
-      "attrs": { "value": "10000" }
+      "top": -101.35,
+      "left": -337.4,
+      "attrs": { "value": "100000" }
     },
     {
-      "type": "wokwi-resistor",
-      "id": "r11",
-      "top": -274.15,
-      "left": -385.4,
+      "type": "wokwi-pushbutton-6mm",
+      "id": "btn2",
+      "top": 128.8,
+      "left": -364,
       "rotate": 180,
-      "attrs": { "value": "10000" }
+      "attrs": { "color": "green", "xray": "1" }
     },
     {
-      "type": "wokwi-resistor",
-      "id": "r12",
-      "top": -216.55,
-      "left": -385.4,
+      "type": "wokwi-pushbutton-6mm",
+      "id": "btn3",
+      "top": 90.4,
+      "left": -364,
       "rotate": 180,
-      "attrs": { "value": "10000" }
+      "attrs": { "color": "green", "xray": "1" }
     },
     {
-      "type": "wokwi-resistor",
-      "id": "r13",
-      "top": -149.35,
-      "left": -385.4,
+      "type": "wokwi-pushbutton-6mm",
+      "id": "btn4",
+      "top": 52,
+      "left": -364,
       "rotate": 180,
-      "attrs": { "value": "10000" }
+      "attrs": { "color": "green", "xray": "1" }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "text1",
+      "top": -278.4,
+      "left": -220.8,
+      "attrs": { "text": "TL1" }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "text2",
+      "top": -278.4,
+      "left": -163.2,
+      "attrs": { "text": "TL2" }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "text3",
+      "top": -278.4,
+      "left": -115.2,
+      "attrs": { "text": "TL3" }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "text4",
+      "top": 57.6,
+      "left": -499.2,
+      "attrs": { "text": "BTN3" }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "text5",
+      "top": 96,
+      "left": -499.2,
+      "attrs": { "text": "BTN2" }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "text6",
+      "top": 134.4,
+      "left": -499.2,
+      "attrs": { "text": "BTN1" }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "text7",
+      "top": -67.2,
+      "left": -384,
+      "rotate": 270,
+      "attrs": { "text": "manual" }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "text8",
+      "top": -67.2,
+      "left": -451.2,
+      "rotate": 270,
+      "attrs": { "text": "random" }
     }
   ],
   "connections": [
@@ -213,40 +270,11 @@
     [ "bb1:9b.g", "bb1:15b.g", "black", [ "v0" ] ],
     [ "bb1:3b.g", "bb1:9b.g", "black", [ "v0" ] ],
     [ "bb1:15b.g", "pico:GND.1", "black", [ "v0", "h38.4" ] ],
-    [ "sw1:3", "bb2:17t.a", "black", [ "v115.2", "h-9.4" ] ],
-    [ "sw1:1", "bb2:16t.a", "red", [ "v0" ] ],
-    [ "bb2:17t.e", "bb2:17b.f", "black", [ "v0" ] ],
-    [ "bb2:16t.e", "bb2:16b.f", "red", [ "v0" ] ],
-    [ "btn1:1.l", "r11:2", "green", [ "h0" ] ],
-    [ "btn2:1.l", "r12:2", "green", [ "h0" ] ],
-    [ "btn3:1.l", "r13:2", "green", [ "h0" ] ],
-    [ "r11:1", "bb2:14t.a", "red", [ "v0", "h38.4" ] ],
-    [ "r12:1", "bb2:12t.a", "red", [ "v0", "h19.2" ] ],
-    [ "r13:1", "bb2:10t.a", "red", [ "v0" ] ],
-    [ "btn3:1.r", "bb2:1t.a", "black", [ "v0", "h-9.8", "v57.6" ] ],
     [ "bb1:1b.j", "pico:GP11", "blue", [ "v67.2", "h48" ] ],
     [ "pico:VSYS", "bb3:bp.1", "red", [ "v0" ] ],
     [ "pico:GND.8", "bb3:bn.2", "black", [ "v0" ] ],
-    [ "bb2:17b.j", "bb3:bn.25", "black", [ "v0" ] ],
-    [ "bb2:16b.j", "bb3:bp.25", "red", [ "v0" ] ],
-    [ "btn2:1.r", "bb2:1t.b", "black", [ "v0", "h-19.4", "v134.4" ] ],
-    [ "btn1:1.r", "bb2:1t.c", "black", [ "v0", "h-29", "v201.6" ] ],
-    [ "bb2:10t.a", "bb2:12t.a", "red", [ "v0" ] ],
-    [ "bb2:12t.a", "bb2:14t.a", "red", [ "v0" ] ],
-    [ "bb2:14t.a", "bb2:16t.a", "red", [ "v0" ] ],
-    [ "bb2:1t.e", "bb2:1b.f", "black", [ "v0" ] ],
     [ "bb3:bn.2", "bb3:tn.2", "black", [ "h0" ] ],
     [ "bb3:bp.1", "bb3:tp.1", "red", [ "v0" ] ],
-    [ "bb2:1b.j", "bb3:tn.25", "black", [ "v9.6", "h-38.4" ] ],
-    [ "r11:2", "bb2:4t.a", "violet", [ "v0" ] ],
-    [ "btn2:1.l", "bb2:5t.a", "gray", [ "h19.2", "v48" ] ],
-    [ "btn3:1.l", "bb2:6t.a", "white", [ "h0" ] ],
-    [ "bb2:4t.e", "bb2:4b.f", "violet", [ "v0" ] ],
-    [ "bb2:5t.e", "bb2:5b.f", "gray", [ "v0" ] ],
-    [ "bb2:6t.e", "bb2:6b.f", "white", [ "v0" ] ],
-    [ "bb2:6b.j", "pico:GP12", "white", [ "v19.2", "h124.8", "v57.6", "h48" ] ],
-    [ "bb2:5b.j", "pico:GP13", "gray", [ "v28.8", "h124.8", "v57.6", "h48" ] ],
-    [ "bb2:4b.j", "pico:GP14", "violet", [ "v38.4", "h124.8", "v57.6", "h38.4" ] ],
     [ "lcd1:VCC", "bb3:tp.5", "red", [ "h0" ] ],
     [ "lcd1:GND", "bb3:tn.5", "black", [ "h57.6", "v9.6" ] ],
     [ "lcd1:CS", "bb3:8t.a", "green", [ "h0" ] ],
@@ -255,21 +283,38 @@
     [ "lcd1:MOSI", "bb3:11t.a", "gold", [ "h0" ] ],
     [ "lcd1:SCK", "bb3:12t.a", "green", [ "h0" ] ],
     [ "lcd1:LED", "bb3:13t.a", "red", [ "h0" ] ],
-    [ "lcd1:MISO", "bb3:14t.a", "gray", [ "h0" ] ],
-    [ "bb3:14t.e", "bb3:14b.f", "gray", [ "h0" ] ],
     [ "bb3:13t.e", "bb3:13b.f", "red", [ "h0" ] ],
     [ "bb3:12t.e", "bb3:12b.f", "green", [ "h0" ] ],
     [ "bb3:11t.e", "bb3:11b.f", "gold", [ "h0" ] ],
     [ "bb3:10t.e", "bb3:10b.f", "orange", [ "h0" ] ],
     [ "bb3:9t.e", "bb3:9b.f", "red", [ "h0" ] ],
     [ "bb3:8t.e", "bb3:8b.f", "green", [ "h0" ] ],
-    [ "bb3:14b.j", "pico:GP16", "green", [ "h0" ] ],
     [ "bb3:12b.j", "pico:GP18", "green", [ "h0" ] ],
     [ "bb3:11b.j", "pico:GP19", "green", [ "h0" ] ],
     [ "bb3:10b.j", "pico:GP20", "green", [ "h0" ] ],
     [ "bb3:9b.j", "pico:GP21", "green", [ "h0" ] ],
     [ "bb3:8b.j", "pico:GP22", "green", [ "h0" ] ],
-    [ "bb3:13b.j", "bb3:bn.5", "red", [ "h0" ] ]
+    [ "bb3:13b.j", "bb3:bn.5", "red", [ "h0" ] ],
+    [ "pico:GP12", "bb3:28b.j", "orange", [ "v0" ] ],
+    [ "pico:GP14", "bb3:22b.j", "orange", [ "v0" ] ],
+    [ "pico:GP13", "bb3:24b.j", "orange", [ "v0" ] ],
+    [ "btn2:1.r", "bb3:tn.16", "black", [ "v0" ] ],
+    [ "btn3:2.r", "bb3:tn.21", "black", [ "h0" ] ],
+    [ "btn4:2.r", "bb3:tn.25", "black", [ "h0" ] ],
+    [ "sw1:1", "bb3:tp.25", "red", [ "v-19.2", "h86.4", "v115.2", "h-144.3" ] ],
+    [ "sw1:3", "bb3:tn.24", "black", [ "v-28.8", "h-48.2", "v163.2", "h19.3" ] ],
+    [ "btn2:1.l", "bb3:20b.f", "", [ "$bb" ] ],
+    [ "btn2:2.l", "bb3:22b.f", "", [ "$bb" ] ],
+    [ "btn2:1.r", "bb3:20t.e", "", [ "$bb" ] ],
+    [ "btn2:2.r", "bb3:22t.e", "", [ "$bb" ] ],
+    [ "btn3:1.l", "bb3:24b.f", "", [ "$bb" ] ],
+    [ "btn3:2.l", "bb3:26b.f", "", [ "$bb" ] ],
+    [ "btn3:1.r", "bb3:24t.e", "", [ "$bb" ] ],
+    [ "btn3:2.r", "bb3:26t.e", "", [ "$bb" ] ],
+    [ "btn4:1.l", "bb3:28b.f", "", [ "$bb" ] ],
+    [ "btn4:2.l", "bb3:30b.f", "", [ "$bb" ] ],
+    [ "btn4:1.r", "bb3:28t.e", "", [ "$bb" ] ],
+    [ "btn4:2.r", "bb3:30t.e", "", [ "$bb" ] ]
   ],
   "dependencies": {}
 }
