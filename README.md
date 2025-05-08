@@ -128,8 +128,15 @@ SmartTjunction/
 
 This project is released under the TAU License.
 
-<p align="right">
-   <img src="https://en-engineering.tau.ac.il/sites/engineering-english.tau.ac.il/files/TAU_facultot_logos-01-handasa_0.png" alt="Tel Aviv University" height="72" width="212">
-   <h1 id="faculty_name"><span class="another_grey">The Iby and Aladar Fleischman</span> <span class="black"> Faculty of Engineering</span></h1><input id="menu_gid" type="hidden" value="19">
-</p>
+<div class="section clear">
+                  <a href="/" title="Go to homepage" rel="home" id="logo" aria-label="Go to homepage">
+                                        <div class="tau_logo">
+                <img src="https://en-engineering.tau.ac.il/sites/engineering-english.tau.ac.il/files/TAU_facultot_logos-01-handasa_0.png" alt="Tel Aviv University" height="72" width="212">
+              </div>
+              <div class="group_header">
+                                <div class="group_header_txt">
+                  <h1 id="faculty_name"><span class="another_grey">The Iby and Aladar Fleischman</span> <span class="black"> Faculty of Engineering</span></h1><input id="menu_gid" type="hidden" value="19">                  <div class="university-name">Tel Aviv University</div>                </div>
+                              </div>
+                                    </a>
+                      </div>
 
