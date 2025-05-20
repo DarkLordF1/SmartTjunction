@@ -123,7 +123,7 @@ Example log output:
 13245 ms, vehicle 5, crossed from lane 1
 30345 ms, system, optimizer adjusted TL2 to 6s green
 Repository Structure
-
+```
 SmartTjunction/
 ├── traffic_control.ino             # Main code
 ├── diagram.json                    # Wokwi circuit layout
