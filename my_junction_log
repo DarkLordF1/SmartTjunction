@@ -1,0 +1,51 @@
+SD: init failed
+3451, system, Traffic Light Pattern Update
+3451, 1, Vehicle Generation (random), entered lane 1, Lane1:1 L2:0 L3:0
+3452, 2, Vehicle Generation (random), entered lane 2, Lane1:1 L2:1 L3:0
+3452, 3, Vehicle Generation (random), entered lane 3, Lane1:1 L2:1 L3:1
+3779, system, Traffic Light TL1 RED→GREEN
+4451, 1, Junction Crossing, crossed lane 1, Lane1:0 L2:1 L3:1
+6451, system, Traffic Light TL1 GREEN→YELLOW
+6951, system, Traffic Light TL2 RED→GREEN
+7951, 2, Junction Crossing, crossed lane 2, Lane1:0 L2:0 L3:1
+9194, 4, Vehicle Generation (random), entered lane 2, Lane1:0 L2:1 L3:1
+9951, system, Traffic Light TL2 GREEN→YELLOW
+10213, 5, Vehicle Generation (random), entered lane 3, Lane1:0 L2:1 L3:2
+10384, 6, Vehicle Generation (random), entered lane 1, Lane1:1 L2:1 L3:2
+10452, 4, Junction Crossing, crossed lane 2, Lane1:1 L2:0 L3:2
+10521, system, Traffic Light TL3 RED→GREEN
+11452, 3, Junction Crossing, crossed lane 3, Lane1:1 L2:0 L3:1
+12452, 5, Junction Crossing, crossed lane 3, Lane1:1 L2:0 L3:0
+13452, system, Traffic Light TL3 GREEN→YELLOW
+13952, system, Traffic Light TL1 RED→GREEN
+14952, 6, Junction Crossing, crossed lane 1, Lane1:0 L2:0 L3:0
+16913, 7, Vehicle Generation (random), entered lane 3, Lane1:0 L2:0 L3:1
+16981, system, Traffic Light TL1 GREEN→YELLOW
+17481, system, Traffic Light TL2 RED→GREEN
+17723, 8, Vehicle Generation (random), entered lane 2, Lane1:0 L2:1 L3:1
+18392, 9, Vehicle Generation (random), entered lane 1, Lane1:1 L2:1 L3:1
+18481, 8, Junction Crossing, crossed lane 2, Lane1:1 L2:0 L3:1
+20481, system, Traffic Light TL2 GREEN→YELLOW
+20981, system, Traffic Light TL3 RED→GREEN
+21981, 7, Junction Crossing, crossed lane 3, Lane1:1 L2:0 L3:0
+23981, system, Traffic Light TL3 GREEN→YELLOW
+24481, system, Traffic Light TL1 RED→GREEN
+25165, 10, Vehicle Generation (random), entered lane 3, Lane1:1 L2:0 L3:1
+25481, 9, Junction Crossing, crossed lane 1, Lane1:0 L2:0 L3:1
+26979, 11, Vehicle Generation (random), entered lane 2, Lane1:0 L2:1 L3:1
+27481, system, Traffic Light TL1 GREEN→YELLOW
+27981, system, Traffic Light TL2 RED→GREEN
+28148, 12, Vehicle Generation (random), entered lane 1, Lane1:1 L2:1 L3:1
+28981, 11, Junction Crossing, crossed lane 2, Lane1:1 L2:0 L3:1
+30981, system, Traffic Light TL2 GREEN→YELLOW
+31481, system, Traffic Light TL3 RED→GREEN
+32481, 10, Junction Crossing, crossed lane 3, Lane1:1 L2:0 L3:0
+33190, 13, Vehicle Generation (random), entered lane 2, Lane1:1 L2:1 L3:0
+34284, 14, Vehicle Generation (random), entered lane 3, Lane1:1 L2:1 L3:1
+34481, system, Traffic Light TL3 GREEN→YELLOW
+34545, 15, Vehicle Generation (random), entered lane 1, Lane1:2 L2:1 L3:1
+34981, 14, Junction Crossing, crossed lane 3, Lane1:2 L2:1 L3:0
+34981, system, Pattern Optimized → 5,4,3
+35088, system, Traffic Light TL1 RED→GREEN
+35981, 12, Junction Crossing, crossed lane 1, Lane1:1 L2:1 L3:0
+36981, 15, Junction Crossing, crossed lane 1, Lane1:0 L2:1 L3:0
