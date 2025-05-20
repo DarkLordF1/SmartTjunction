@@ -138,7 +138,7 @@ Click below to open the interactive **SmartTjunction** simulation on Wokwi:
 
 [![Run on Wokwi](https://img.shields.io/badge/Wokwi-Simulator-green?logo=arduino)](https://wokwi.com/projects/430293286791147521)
 
-[![SmartTjunction Preview](./diagram_preview_smarttjunction.png)](https://wokwi.com/projects/430293286791147521)
+[![SmartTjunction Preview](./smartTjunction.png)](https://wokwi.com/projects/430293286791147521)
 
 ## License & Credits
 
