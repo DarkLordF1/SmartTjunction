@@ -100,6 +100,7 @@ SmartTjunction emulates a real-world T-junction traffic control system by combin
 ```bash
 git clone https://github.com/aiman5abed/SmartTjunction.git
 cd SmartTjunction
+```
 Open traffic_control.ino in your IDE.
 Install the required libraries listed in libraries.txt.
 Connect your Pico and select the correct board/port.
