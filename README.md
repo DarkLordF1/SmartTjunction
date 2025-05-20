@@ -14,6 +14,7 @@ A cooperative multitasking simulation and control system for a smart T-junction 
 - [Installation](#installation)
 - [Usage](#usage)
 - [Repository Structure](#repository-structure)
+- [Live Simulation](#live-simulation)
 - [License & Credits](#license--credits)
 
 ---
@@ -131,6 +132,14 @@ SmartTjunction/
 ├── presentation_Smart-T-Junction.pptx  # Final slides
 └── README.md
 ```
+##  Live Simulation
+
+Click below to open the interactive **SmartTjunction** simulation on Wokwi:
+
+[![Run on Wokwi](https://img.shields.io/badge/Wokwi-Simulator-green?logo=arduino)](https://wokwi.com/projects/430293286791147521)
+
+[![SmartTjunction Preview](./diagram_preview_smarttjunction.png)](https://wokwi.com/projects/430293286791147521)
+
 ## License & Credits
 
 This project is licensed under the Tel Aviv University Educational License (TAU-EL).
